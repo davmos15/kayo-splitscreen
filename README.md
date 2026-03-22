@@ -4,7 +4,7 @@
 
 Kayo Sports disables SplitView (multi-stream viewing) on LG WebOS TV browsers by detecting the Smart TV user-agent. This tool spoofs a desktop Chrome user-agent so Kayo serves the full desktop player with SplitView enabled.
 
-## [Launch the App](https://nadavmoskow.github.io/kayo-splitscreen/)
+## [Launch the App](https://davmos15.github.io/kayo-splitscreen/)
 
 ## How It Works
 
@@ -26,7 +26,7 @@ Kayo Sports disables SplitView (multi-stream viewing) on LG WebOS TV browsers by
 
 ### On LG TV (Primary Method)
 1. Open the LG TV web browser
-2. Navigate to the [hosted page](https://nadavmoskow.github.io/kayo-splitscreen/)
+2. Navigate to the [hosted page](https://davmos15.github.io/kayo-splitscreen/)
 3. Click **"Launch Kayo with SplitView"**
 4. If the iframe is blocked, use **"Open Kayo Directly"**
 
