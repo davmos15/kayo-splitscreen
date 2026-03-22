@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Unlock SplitView on Kayo Sports for Smart TVs (LG, Hisense, Samsung). Watch multiple streams side by side on your TV.">
+<meta name="description" content="Unlock SplitView on Kayo Sports for Smart TVs (LG, Hisense, Samsung, Sony, Panasonic & more). Detects your TV and shows the best workaround.">
 <meta name="theme-color" content="#e8001c">
 <meta property="og:title" content="Kayo SplitView Launcher">
-<meta property="og:description" content="Unlock SplitView on Kayo Sports for Smart TVs — LG, Hisense, Samsung and more.">
+<meta property="og:description" content="Unlock SplitView on Kayo Sports for Smart TVs — detects your TV and shows the best workaround.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <title>Kayo SplitView Launcher</title>
@@ -20,7 +20,6 @@
     --kayo-border: #222222;
     --kayo-muted: #555;
     --kayo-text: #f0f0f0;
-    --kayo-accent: #ff3344;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +32,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding: 40px 20px;
     overflow-x: hidden;
   }
@@ -42,7 +40,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,0,28,0.15) 0%, transparent 60%),
       repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px),
       repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px);
@@ -89,9 +87,7 @@
     color: #fff;
   }
 
-  h1 span {
-    color: var(--kayo-red);
-  }
+  h1 span { color: var(--kayo-red); }
 
   .subtitle {
     margin-top: 12px;
@@ -133,6 +129,120 @@
 
   #status-text { color: #aaa; flex: 1; }
 
+  /* DETECTED TV CARD */
+  .detected-tv {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .detected-tv .tv-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .detected-tv .tv-detail {
+    font-size: 12px;
+    color: var(--kayo-muted);
+    margin-bottom: 14px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+
+  .tag.yes { background: rgba(0,230,118,0.12); color: #00e676; border: 1px solid rgba(0,230,118,0.25); }
+  .tag.no { background: rgba(232,0,28,0.1); color: #ff5252; border: 1px solid rgba(232,0,28,0.25); }
+  .tag.partial { background: rgba(255,214,0,0.1); color: #ffd600; border: 1px solid rgba(255,214,0,0.25); }
+
+  /* RECOMMENDATION CARDS */
+  .rec-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--kayo-text);
+    margin-bottom: 16px;
+    margin-top: 8px;
+  }
+
+  .rec-card {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+
+  .rec-card.best { border-left: 3px solid #00e676; }
+  .rec-card.good { border-left: 3px solid #ffd600; }
+  .rec-card.alt { border-left: 3px solid #3b82f6; }
+
+  .rec-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+
+  .rec-card.best h3 { color: #00e676; }
+  .rec-card.good h3 { color: #ffd600; }
+  .rec-card.alt h3 { color: #3b82f6; }
+
+  .rec-card .rec-why {
+    font-size: 12px;
+    color: var(--kayo-muted);
+    margin-bottom: 12px;
+  }
+
+  .rec-steps {
+    list-style: none;
+    counter-reset: rec;
+  }
+
+  .rec-steps li {
+    counter-increment: rec;
+    padding: 6px 0 6px 32px;
+    position: relative;
+    font-size: 13px;
+    color: #bbb;
+    border-bottom: 1px solid #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .rec-steps li:last-child { border-bottom: none; }
+
+  .rec-steps li::before {
+    content: counter(rec);
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .rec-card.best .rec-steps li::before { background: rgba(0,230,118,0.15); color: #00e676; border: 1px solid rgba(0,230,118,0.3); }
+  .rec-card.good .rec-steps li::before { background: rgba(255,214,0,0.15); color: #ffd600; border: 1px solid rgba(255,214,0,0.3); }
+  .rec-card.alt .rec-steps li::before { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+
+  .rec-steps li strong { color: #fff; }
+
   /* UA DISPLAY */
   .ua-box {
     background: #0d0d0d;
@@ -158,9 +268,11 @@
   }
 
   #ua-detected { color: #888; }
-  #ua-spoofed { color: #66ff88; }
 
-  /* MAIN BUTTON */
+  /* MAIN BUTTON (LG only) */
+  .launch-section { display: none; }
+  .launch-section.visible { display: block; }
+
   .launch-btn {
     display: block;
     width: 100%;
@@ -174,7 +286,6 @@
     letter-spacing: 3px;
     cursor: pointer;
     text-align: center;
-    text-decoration: none;
     transition: all 0.2s ease;
     margin-bottom: 16px;
     position: relative;
@@ -208,7 +319,6 @@
     margin-top: 4px;
   }
 
-  /* SECONDARY BUTTONS */
   .btn-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -288,86 +398,48 @@
   .steps li span { color: #ccc; }
   .steps li strong { color: white; }
 
-  /* TV GUIDE SECTIONS */
-  .tv-guide {
+  /* ALL TVS TABLE */
+  .all-tvs {
     background: var(--kayo-panel);
     border: 1px solid var(--kayo-border);
     border-radius: 10px;
-    padding: 20px 24px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .all-tvs h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--kayo-red);
     margin-bottom: 16px;
   }
 
-  .tv-guide.lg { border-left: 3px solid #a855f7; }
-  .tv-guide.hisense { border-left: 3px solid #f97316; }
-  .tv-guide.hdmi { border-left: 3px solid #3b82f6; }
-  .tv-guide.mirror { border-left: 3px solid #00bfa5; }
-
-  .tv-guide h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-  }
-
-  .tv-guide.lg h2 { color: #a855f7; }
-  .tv-guide.hisense h2 { color: #f97316; }
-  .tv-guide.hdmi h2 { color: #3b82f6; }
-  .tv-guide.mirror h2 { color: #00bfa5; }
-
-  .tv-guide .guide-subtitle {
-    font-size: 12px;
-    color: var(--kayo-muted);
-    margin-bottom: 14px;
-  }
-
-  .tv-guide-steps {
-    list-style: none;
-    counter-reset: guide-steps;
-  }
-
-  .tv-guide-steps li {
-    counter-increment: guide-steps;
-    padding: 8px 0 8px 36px;
-    position: relative;
+  .tv-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: 13px;
-    color: #bbb;
-    border-bottom: 1px solid #1a1a1a;
-    line-height: 1.5;
   }
 
-  .tv-guide-steps li:last-child { border-bottom: none; }
-
-  .tv-guide-steps li::before {
-    content: counter(guide-steps);
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .tv-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--kayo-border);
+    color: var(--kayo-muted);
     font-size: 11px;
-    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
-  .tv-guide.lg .tv-guide-steps li::before { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); }
-  .tv-guide.hisense .tv-guide-steps li::before { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.3); }
-  .tv-guide.hdmi .tv-guide-steps li::before { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
-  .tv-guide.mirror .tv-guide-steps li::before { background: rgba(0,191,165,0.15); color: #00bfa5; border: 1px solid rgba(0,191,165,0.3); }
-
-  .tv-guide-steps li strong { color: #fff; }
-
-  .guides-heading {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 2px;
-    color: var(--kayo-text);
-    margin-bottom: 20px;
-    margin-top: 12px;
-    text-align: center;
+  .tv-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #bbb;
   }
+
+  .tv-table tr:last-child td { border-bottom: none; }
+
+  .tv-table .brand { color: #fff; font-weight: 500; }
 
   /* WARNING */
   .warning {
@@ -378,45 +450,10 @@
     font-size: 12px;
     color: #aaa;
     line-height: 1.6;
+    margin-bottom: 28px;
   }
 
   .warning strong { color: #ffd600; }
-
-  /* IFRAME OVERLAY */
-  #kayo-frame-container {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: #000;
-  }
-
-  #kayo-frame-container.active { display: block; }
-
-  #kayo-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  #close-frame {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 200;
-    background: rgba(232,0,28,0.9);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-  }
-
-  #close-frame:hover { background: var(--kayo-red); }
 
   /* FOOTER */
   .footer {
@@ -452,8 +489,55 @@
     color: #444;
   }
 
+  /* IFRAME OVERLAY */
+  #kayo-frame-container {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+  }
+
+  #kayo-frame-container.active { display: block; }
+
+  #kayo-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Close button: bottom-left, auto-hides after 5s, reappears on mouse/remote movement */
+  #close-frame {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 200;
+    background: rgba(30,30,30,0.85);
+    color: #aaa;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    opacity: 1;
+    transition: opacity 0.4s ease;
+  }
+
+  #close-frame:hover {
+    background: rgba(232,0,28,0.9);
+    color: white;
+    border-color: var(--kayo-red);
+  }
+
+  #close-frame.hidden { opacity: 0; pointer-events: none; }
+
   @media (max-width: 600px) {
     .btn-row { grid-template-columns: 1fr; }
+    .tv-table { font-size: 11px; }
+    .tv-table th, .tv-table td { padding: 8px 6px; }
   }
 </style>
 </head>
@@ -463,126 +547,107 @@
   <header>
     <div class="logo-badge">KAYO SPLITVIEW UNLOCKER</div>
     <h1>SPLIT<span>VIEW</span><br>LAUNCHER</h1>
-    <p class="subtitle">Get SplitView working on your Smart TV — LG, Hisense, Samsung & more</p>
+    <p class="subtitle">Get SplitView working on your Smart TV — auto-detects your device</p>
   </header>
 
   <!-- STATUS -->
   <div class="status-bar">
     <div class="status-dot" id="status-dot"></div>
-    <span id="status-text">Detecting your browser environment…</span>
+    <span id="status-text">Detecting your device…</span>
+  </div>
+
+  <!-- DETECTED TV -->
+  <div class="detected-tv" id="detected-tv"></div>
+
+  <!-- RECOMMENDATIONS (populated by JS) -->
+  <div id="recommendations"></div>
+
+  <!-- LG LAUNCH SECTION (shown only for LG) -->
+  <div class="launch-section" id="lg-launch">
+    <button class="launch-btn" onclick="launchKayo()" id="launch-btn">
+      LAUNCH KAYO WITH SPLITVIEW
+      <span class="btn-sub">Opens Kayo web player with desktop identity — SplitView should be available</span>
+    </button>
+    <div class="btn-row">
+      <button class="sec-btn" onclick="openKayoDirect()">
+        <span class="icon">🌐</span>
+        Open Kayo Directly
+        <span class="desc">Standard browser — no UA spoof</span>
+      </button>
+      <button class="sec-btn" onclick="testUA()">
+        <span class="icon">🔍</span>
+        Test UA Spoof
+        <span class="desc">Verify what Kayo sees</span>
+      </button>
+    </div>
   </div>
 
   <!-- UA DISPLAY -->
   <div class="ua-box">
-    <span class="label">Detected User-Agent (what Kayo sees now)</span>
+    <span class="label">Your User-Agent</span>
     <span id="ua-detected">Detecting…</span>
-    <br><br>
-    <span class="label">Spoofed User-Agent (what Kayo will see)</span>
-    <span id="ua-spoofed">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36</span>
-  </div>
-
-  <!-- MAIN LAUNCH -->
-  <button class="launch-btn" onclick="launchKayo()" id="launch-btn">
-    🚀 LAUNCH KAYO WITH SPLITVIEW
-    <span class="btn-sub">Opens Kayo web player with desktop identity — SplitView should be available</span>
-  </button>
-
-  <!-- SECONDARY BUTTONS -->
-  <div class="btn-row">
-    <button class="sec-btn" onclick="openKayoDirect()">
-      <span class="icon">🌐</span>
-      Open Kayo Directly
-      <span class="desc">Standard browser — no UA spoof</span>
-    </button>
-    <button class="sec-btn" onclick="testUA()">
-      <span class="icon">🔍</span>
-      Test UA Spoof
-      <span class="desc">See what sites will detect</span>
-    </button>
   </div>
 
   <!-- HOW IT WORKS -->
   <div class="how-it-works">
-    <h2>⚙️ How This Works</h2>
+    <h2>Why SplitView Is Blocked On Your TV</h2>
     <ul class="steps">
       <li>
         <div class="step-num">1</div>
-        <span>Your LG browser identifies itself as <strong>Web0S; Linux/SmartTV</strong> — Kayo detects this and disables SplitView</span>
+        <span>Kayo only enables SplitView on <strong>Apple TV, desktop web browsers, and mobile/tablet apps</strong></span>
       </li>
       <li>
         <div class="step-num">2</div>
-        <span>This launcher opens Kayo inside a frame and injects a <strong>desktop Windows Chrome user-agent</strong> before Kayo's scripts load</span>
+        <span>Smart TVs (LG, Samsung, Hisense, Sony, etc.) are <strong>explicitly blocked</strong> — even if they have the Kayo app</span>
       </li>
       <li>
         <div class="step-num">3</div>
-        <span>Kayo thinks you're on a <strong>Windows PC using Chrome</strong> — and serves the full desktop player with SplitView enabled</span>
+        <span>Casting via Chromecast or AirPlay also <strong>disables SplitView</strong> — Kayo detects the cast session</span>
       </li>
       <li>
         <div class="step-num">4</div>
-        <span>Inside Kayo, click the <strong>SplitView icon</strong> (grid/+ icon in the player controls) to add a second stream</span>
+        <span>The workarounds below bypass these restrictions using <strong>screen mirroring, HDMI, or UA spoofing</strong></span>
       </li>
     </ul>
   </div>
 
-  <!-- TV-SPECIFIC GUIDES -->
-  <h3 class="guides-heading">WORKAROUNDS BY TV</h3>
-
-  <!-- LG TV -->
-  <div class="tv-guide lg">
-    <h2>LG TV (WebOS)</h2>
-    <p class="guide-subtitle">Has a built-in browser — try the launcher above first, then fall back to screen mirroring</p>
-    <ul class="tv-guide-steps">
-      <li>Open the <strong>LG TV web browser</strong> and navigate to this page</li>
-      <li>Click <strong>"Launch Kayo with SplitView"</strong> above — this attempts to spoof your browser as a desktop PC</li>
-      <li>If the iframe is blocked (blank/error screen), click <strong>"Open Kayo Directly"</strong> instead</li>
-      <li>If neither works, use the <strong>Android Screen Mirror</strong> method below — it's the most reliable option</li>
-    </ul>
-  </div>
-
-  <!-- HISENSE TV -->
-  <div class="tv-guide hisense">
-    <h2>Hisense TV (VIDAA)</h2>
-    <p class="guide-subtitle">No Kayo app on older VIDAA models, browser too limited for Kayo's web player. Use one of these instead:</p>
-    <ul class="tv-guide-steps">
-      <li><strong>Cheapest option:</strong> Connect a <strong>laptop via HDMI</strong> — open kayosports.com.au in Chrome and use SplitView directly (see HDMI guide below)</li>
-      <li><strong>Best dedicated option:</strong> Plug in an <strong>Apple TV 4K</strong> or <strong>Chromecast with Google TV</strong> via HDMI — Kayo's app on these devices supports SplitView natively</li>
-      <li><strong>No extra hardware:</strong> Use the <strong>Android Screen Mirror</strong> method below — enable SplitView on your phone, then mirror to the TV using <strong>AnyView Cast</strong> (Hisense's built-in Miracast)</li>
-      <li>To use AnyView Cast: press <strong>Input</strong> on your Hisense remote, select <strong>AnyView Cast</strong>, then connect from your Android phone's Screen Cast / Smart View</li>
-    </ul>
-  </div>
-
-  <!-- HDMI METHOD -->
-  <div class="tv-guide hdmi">
-    <h2>Laptop + HDMI Cable</h2>
-    <p class="guide-subtitle">Works with any TV that has an HDMI port — guaranteed SplitView, no tricks needed</p>
-    <ul class="tv-guide-steps">
-      <li>Connect your <strong>laptop to your TV</strong> with an HDMI cable</li>
-      <li>On the TV, switch to the correct <strong>HDMI input</strong> (use the Input/Source button on your remote)</li>
-      <li>On the laptop, open <strong>Chrome or Edge</strong> and go to <strong>kayosports.com.au</strong></li>
-      <li>Log in, start a stream, then click the <strong>SplitView icon</strong> (grid/+ in the player controls)</li>
-      <li>Kayo's web player fully supports SplitView on desktop browsers — up to <strong>4 streams at once</strong></li>
-      <li><strong>Tip:</strong> Press <strong>Win+P</strong> (Windows) or mirror display in System Preferences (Mac) to duplicate your screen to the TV</li>
-    </ul>
-  </div>
-
-  <!-- ANDROID SCREEN MIRROR -->
-  <div class="tv-guide mirror">
-    <h2>Android Screen Mirror (Any TV)</h2>
-    <p class="guide-subtitle">Works on LG, Hisense, Samsung — any TV with Miracast / screen mirroring support</p>
-    <ul class="tv-guide-steps">
-      <li>Open <strong>Kayo on your Android phone</strong> and start watching a stream</li>
-      <li>Tap the <strong>SplitView icon</strong> in the bottom player tray to add a second game</li>
-      <li>Once both streams are showing, pull down your <strong>notification shade</strong></li>
-      <li>Tap <strong>Screen Cast</strong>, <strong>Smart View</strong>, or <strong>Wireless Display</strong> (name varies by phone brand)</li>
-      <li>Select your <strong>TV</strong> from the list (must be on the same Wi-Fi network)</li>
-      <li>Your entire phone screen mirrors to the TV — Kayo <strong>never detects a cast</strong>, so SplitView stays active</li>
-      <li><strong>Tip:</strong> Lock screen rotation to landscape and set brightness to max before mirroring</li>
-    </ul>
+  <!-- ALL TVS REFERENCE TABLE -->
+  <div class="all-tvs">
+    <h2>Kayo SplitView Support By Device</h2>
+    <table class="tv-table">
+      <thead>
+        <tr>
+          <th>Device / TV</th>
+          <th>Kayo App</th>
+          <th>SplitView</th>
+          <th>Best Workaround</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="brand">Apple TV 4K / HD</td><td>Yes</td><td><span class="tag yes">YES</span></td><td>Works natively</td></tr>
+        <tr><td class="brand">Desktop Browser</td><td>Web</td><td><span class="tag yes">YES</span></td><td>Works natively (up to 4 streams)</td></tr>
+        <tr><td class="brand">Mobile / Tablet</td><td>Yes</td><td><span class="tag yes">YES</span></td><td>Works natively (2-4 streams)</td></tr>
+        <tr><td class="brand">Android TV / Google TV</td><td>Yes</td><td><span class="tag partial">SOME</span></td><td>Phone mirror or laptop HDMI</td></tr>
+        <tr><td class="brand">LG (WebOS)</td><td>Yes</td><td><span class="tag no">NO</span></td><td>UA spoof launcher or phone mirror</td></tr>
+        <tr><td class="brand">Samsung (Tizen)</td><td>Yes</td><td><span class="tag no">NO</span></td><td>Phone mirror or laptop HDMI</td></tr>
+        <tr><td class="brand">Hisense (VIDAA)</td><td>Some</td><td><span class="tag no">NO</span></td><td>HDMI device or phone mirror</td></tr>
+        <tr><td class="brand">Sony (Android TV)</td><td>Yes</td><td><span class="tag no">NO</span></td><td>Phone mirror or laptop HDMI</td></tr>
+        <tr><td class="brand">Panasonic</td><td>No</td><td><span class="tag no">NO</span></td><td>HDMI device or phone mirror</td></tr>
+        <tr><td class="brand">TCL (Roku TV)</td><td>No</td><td><span class="tag no">NO</span></td><td>HDMI device or phone mirror</td></tr>
+        <tr><td class="brand">TCL (Google TV)</td><td>Yes</td><td><span class="tag partial">SOME</span></td><td>Phone mirror or laptop HDMI</td></tr>
+        <tr><td class="brand">Vizio (SmartCast)</td><td>No</td><td><span class="tag no">NO</span></td><td>HDMI device (has Chromecast built-in)</td></tr>
+        <tr><td class="brand">Philips (Saphi/Titan)</td><td>No</td><td><span class="tag no">NO</span></td><td>HDMI device or phone mirror</td></tr>
+        <tr><td class="brand">Sharp (Aquos)</td><td>No</td><td><span class="tag no">NO</span></td><td>HDMI device or phone mirror</td></tr>
+        <tr><td class="brand">Fire TV / Stick</td><td>Yes</td><td><span class="tag no">NO</span></td><td>Phone mirror or laptop HDMI</td></tr>
+        <tr><td class="brand">Chromecast (casting)</td><td>Cast</td><td><span class="tag no">NO</span></td><td>Phone mirror (don't cast)</td></tr>
+        <tr><td class="brand">PlayStation 4/5</td><td>Yes</td><td><span class="tag no">NO</span></td><td>Phone mirror or laptop HDMI</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- WARNING -->
   <div class="warning">
-    <strong>⚠️ Note:</strong> The iframe launch button above is specifically for <strong>LG WebOS TVs</strong> with a built-in browser. It may be blocked by Kayo's Content Security Policy. For <strong>Hisense, Samsung, and other Smart TVs</strong>, use one of the workaround guides above — the HDMI laptop method or Android screen mirror are the most reliable options.
+    <strong>⚠️ Important:</strong> Chromecast and AirPlay <strong>casting</strong> will always disable SplitView. Screen <strong>mirroring</strong> (which duplicates your entire phone screen) is different — Kayo doesn't detect it, so SplitView stays active. Make sure you use "Screen Mirror" / "Smart View", NOT "Cast".
   </div>
 
   <!-- FOOTER -->
@@ -590,13 +655,13 @@
     <a class="coffee-btn" href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener noreferrer">
       ☕ Buy Me a Coffee
     </a>
-    <p>Made with ❤️ for Kayo fans stuck without SplitView</p>
+    <p>Made for Kayo fans stuck without SplitView</p>
   </div>
 </div>
 
 <!-- FRAME CONTAINER -->
 <div id="kayo-frame-container">
-  <button id="close-frame" onclick="closeFrame()" aria-label="Close player">✕ Close Player</button>
+  <button id="close-frame" onclick="closeFrame()" aria-label="Close player">✕ Close</button>
   <iframe id="kayo-iframe" src="" allow="autoplay; fullscreen; encrypted-media" title="Kayo Sports Player"></iframe>
 </div>
 
@@ -604,38 +669,332 @@
   const DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
   const KAYO_URL = 'https://kayosports.com.au';
 
-  // Detect current UA
+  // ── TV DETECTION ──────────────────────────────────────────────
+  const TV_PROFILES = [
+    {
+      id: 'lg',
+      name: 'LG TV (WebOS)',
+      test: ua => /Web0S|webOS/i.test(ua),
+      hasKayo: true,
+      hasSplitView: false,
+      hasBrowser: true,
+      mirrorName: 'Screen Share',
+      mirrorHow: 'Press the Home button, go to Input, select Screen Share',
+      color: '#a855f7',
+      dotClass: '',
+      statusMsg: 'LG WebOS detected — SplitView is blocked, but this TV has a browser. Try the launcher below.'
+    },
+    {
+      id: 'samsung',
+      name: 'Samsung TV (Tizen)',
+      test: ua => /Tizen|SMART-TV|SamsungBrowser/i.test(ua),
+      hasKayo: true,
+      hasSplitView: false,
+      hasBrowser: true,
+      mirrorName: 'Smart View / Screen Mirroring',
+      mirrorHow: 'On your Samsung remote, press Source and select Screen Mirroring. On your phone, use Smart View',
+      color: '#3b82f6',
+      dotClass: '',
+      statusMsg: 'Samsung Tizen detected — Kayo app available but SplitView is blocked.'
+    },
+    {
+      id: 'hisense-vidaa',
+      name: 'Hisense TV (VIDAA)',
+      test: ua => /VIDAA|Model\/Hisense/i.test(ua),
+      hasKayo: false,
+      kayoNote: 'Only on VIDAA U3-U5 (2019-2021 models)',
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'AnyView Cast',
+      mirrorHow: 'Press Input/Source on your remote, select AnyView Cast, then connect from your phone',
+      color: '#f97316',
+      dotClass: 'red',
+      statusMsg: 'Hisense VIDAA detected — limited Kayo support, no SplitView. See workarounds below.'
+    },
+    {
+      id: 'sony',
+      name: 'Sony TV (Android TV)',
+      test: ua => /BRAVIA|SonyDTV|InettvBrowser/i.test(ua),
+      hasKayo: true,
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'Chromecast built-in / Screen mirroring',
+      mirrorHow: 'Use Google Home app to screen mirror (not cast). Older models: use Miracast via Screen mirroring in Settings',
+      color: '#6366f1',
+      dotClass: '',
+      statusMsg: 'Sony TV detected — Kayo app available but SplitView is blocked.'
+    },
+    {
+      id: 'panasonic',
+      name: 'Panasonic TV',
+      test: ua => /Panasonic|VIERA/i.test(ua),
+      hasKayo: false,
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'Mirroring',
+      mirrorHow: 'Use the Panasonic TV Remote app, or enable Miracast in TV settings under Network > Mirroring',
+      color: '#14b8a6',
+      dotClass: 'red',
+      statusMsg: 'Panasonic TV detected — no Kayo app available. Use an HDMI device or screen mirror.'
+    },
+    {
+      id: 'vizio',
+      name: 'Vizio TV (SmartCast)',
+      test: ua => /VIZIO|SmartCast/i.test(ua),
+      hasKayo: false,
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'AirPlay 2 / Chromecast built-in',
+      mirrorHow: 'Use Google Home app to screen mirror (not cast), or AirPlay from an iPhone (mirror, not cast)',
+      color: '#ec4899',
+      dotClass: 'red',
+      statusMsg: 'Vizio SmartCast detected — no Kayo app. Has Chromecast built-in, but casting disables SplitView. Use screen mirror.'
+    },
+    {
+      id: 'philips',
+      name: 'Philips TV',
+      test: ua => /Philips|NETTV|Saphi|TitanOS/i.test(ua),
+      hasKayo: false,
+      kayoNote: 'Available on Android TV models only',
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'Screen Mirroring / Chromecast built-in',
+      mirrorHow: 'Android TV models: use Google Home to screen mirror. Saphi models: use Miracast via Settings > Wireless and Networks',
+      color: '#06b6d4',
+      dotClass: 'red',
+      statusMsg: 'Philips TV detected — Kayo app only on Android TV models, no SplitView on any.'
+    },
+    {
+      id: 'sharp',
+      name: 'Sharp TV (Aquos)',
+      test: ua => /AQUOS|AQUOSBrowser/i.test(ua),
+      hasKayo: false,
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: 'Miracast / Chromecast built-in',
+      mirrorHow: 'Android TV models: use Google Home to screen mirror. Older models: enable Miracast in TV network settings',
+      color: '#84cc16',
+      dotClass: 'red',
+      statusMsg: 'Sharp Aquos detected — no Kayo app. Use an HDMI device or screen mirror.'
+    },
+    {
+      id: 'firetv',
+      name: 'Amazon Fire TV',
+      test: ua => /AFT[A-Z]|Silk|AmazonWebAppPlatform/i.test(ua),
+      hasKayo: true,
+      hasSplitView: false,
+      hasBrowser: true,
+      mirrorName: 'Display Mirroring',
+      mirrorHow: 'On the Fire TV: Settings > Display & Sounds > Enable Display Mirroring. Then mirror from your phone',
+      color: '#f59e0b',
+      dotClass: '',
+      statusMsg: 'Amazon Fire TV detected — Kayo app available but SplitView is blocked.'
+    },
+    {
+      id: 'android-tv',
+      name: 'Android TV / Google TV',
+      test: ua => {
+        if (/Android/i.test(ua) && !/Mobile/i.test(ua) && /TV|SHIELD|Chromecast|Mi Box|ADT-/i.test(ua)) return true;
+        if (/Fuchsia/i.test(ua) && /CrKey/i.test(ua)) return true;
+        return false;
+      },
+      hasKayo: true,
+      hasSplitView: false,
+      splitViewNote: 'Kayo says "some supported Android TVs" but most are blocked',
+      hasBrowser: false,
+      mirrorName: 'Chromecast built-in',
+      mirrorHow: 'Use Google Home app > select your TV > Cast my screen. This is screen mirroring, not casting — SplitView stays active',
+      color: '#22c55e',
+      dotClass: '',
+      statusMsg: 'Android TV / Google TV detected — Kayo app available, SplitView blocked on most devices.'
+    },
+    {
+      id: 'chromecast',
+      name: 'Chromecast (casting)',
+      test: ua => /CrKey/i.test(ua),
+      hasKayo: false,
+      kayoNote: 'Cast only — no native app',
+      hasSplitView: false,
+      hasBrowser: false,
+      mirrorName: null,
+      color: '#ef4444',
+      dotClass: 'red',
+      statusMsg: 'Chromecast detected — casting always disables SplitView. Use screen mirror from your phone instead.'
+    },
+    {
+      id: 'playstation',
+      name: 'PlayStation',
+      test: ua => /PlayStation|PS[45]/i.test(ua),
+      hasKayo: true,
+      hasSplitView: false,
+      hasBrowser: true,
+      mirrorName: null,
+      color: '#2563eb',
+      dotClass: '',
+      statusMsg: 'PlayStation detected — Kayo app available but SplitView is blocked.'
+    }
+  ];
+
+  function detectTV(ua) {
+    for (const profile of TV_PROFILES) {
+      if (profile.test(ua)) return profile;
+    }
+    return null;
+  }
+
+  // ── RECOMMENDATION BUILDER ────────────────────────────────────
+  function buildRecommendations(tv) {
+    const recs = [];
+
+    // If the TV has a usable browser (LG), show UA spoof as an option
+    if (tv && tv.id === 'lg') {
+      recs.push({
+        tier: 'good',
+        title: 'UA Spoof Launcher (This Page)',
+        why: 'Your LG TV has a built-in browser — the launcher above attempts to trick Kayo into thinking you\'re on a desktop PC',
+        steps: [
+          'Click <strong>"Launch Kayo with SplitView"</strong> above',
+          'If the iframe loads, log in and use SplitView from the player controls',
+          'If you get a blank or error screen, click <strong>"Open Kayo Directly"</strong> instead',
+          'This may not work if Kayo blocks iframes or checks HTTP headers — use another method below if so'
+        ]
+      });
+    }
+
+    // Screen mirror recommendation (if TV supports it)
+    if (tv && tv.mirrorName) {
+      recs.push({
+        tier: (tv.id === 'lg' || (tv.hasKayo && tv.hasBrowser)) ? 'best' : 'best',
+        title: 'Android Screen Mirror → ' + tv.mirrorName,
+        why: 'Mirror your entire phone screen — Kayo can\'t detect this, so SplitView stays active. Works with ' + tv.mirrorName + ' on your ' + tv.name,
+        steps: [
+          'Open <strong>Kayo on your Android phone</strong> and start watching a stream',
+          'Tap the <strong>SplitView icon</strong> in the bottom player tray to add a second stream',
+          'With both streams showing, pull down your <strong>notification shade</strong>',
+          'Tap <strong>Screen Cast / Smart View / Wireless Display</strong> (name varies by phone)',
+          'Select your <strong>TV</strong> from the list (same Wi-Fi network)',
+          tv.mirrorHow ? '<strong>On the TV:</strong> ' + tv.mirrorHow : null,
+          'Lock your phone to <strong>landscape orientation</strong> and set brightness to max'
+        ].filter(Boolean)
+      });
+    }
+
+    // HDMI laptop method (always available)
+    recs.push({
+      tier: (tv && tv.mirrorName) ? 'good' : 'best',
+      title: 'Laptop + HDMI Cable',
+      why: 'Works with any TV that has an HDMI port. Full SplitView with up to 4 streams, no tricks needed',
+      steps: [
+        'Connect your <strong>laptop to the TV</strong> with an HDMI cable',
+        'Switch the TV to the correct <strong>HDMI input</strong> (Input/Source button on remote)',
+        'On the laptop, open <strong>Chrome or Edge</strong> and go to <strong>kayosports.com.au</strong>',
+        'Log in, start a stream, click the <strong>SplitView icon</strong> (grid/+ in player controls)',
+        '<strong>Tip:</strong> Press Win+P (Windows) or use Display settings (Mac) to mirror to the TV'
+      ]
+    });
+
+    // HDMI streaming device
+    recs.push({
+      tier: 'alt',
+      title: 'Apple TV 4K via HDMI (Best Dedicated Solution)',
+      why: 'The only streaming device where Kayo SplitView works natively — up to 4 streams, no workarounds',
+      steps: [
+        'Connect an <strong>Apple TV 4K</strong> (or Apple TV HD) to your TV via HDMI',
+        'Install the <strong>Kayo Sports app</strong> from the App Store',
+        'Open Kayo, start a stream, and use the <strong>SplitView icon</strong> — it just works',
+        '<strong>Note:</strong> Chromecast with Google TV may also work but is not consistently supported'
+      ]
+    });
+
+    return recs;
+  }
+
+  function buildDesktopRecommendations() {
+    return [{
+      tier: 'best',
+      title: 'You\'re Already Set',
+      why: 'SplitView works natively on desktop browsers — no workarounds needed',
+      steps: [
+        'Go to <strong>kayosports.com.au</strong> and log in',
+        'Start a stream and click the <strong>SplitView icon</strong> (grid/+ in the player controls)',
+        'Add up to <strong>4 streams</strong> side by side',
+        'To get this on your TV, connect your <strong>laptop via HDMI</strong>'
+      ]
+    }];
+  }
+
+  // ── RENDER ────────────────────────────────────────────────────
+  function renderDetectedTV(tv) {
+    const el = document.getElementById('detected-tv');
+    if (!tv) {
+      el.innerHTML = `
+        <div class="tv-name" style="color:#00e676">Desktop / Unknown Device</div>
+        <div class="tv-detail">If you're on a Smart TV not listed, scroll down for the full device table</div>
+        <span class="tag yes">KAYO WEB</span>
+        <span class="tag yes">SPLITVIEW</span>
+      `;
+      return;
+    }
+    el.innerHTML = `
+      <div class="tv-name" style="color:${tv.color}">${tv.name}</div>
+      <div class="tv-detail">${tv.hasKayo ? (tv.kayoNote || 'Kayo app available') : (tv.kayoNote || 'No Kayo app on this platform')}${tv.mirrorName ? ' · Supports ' + tv.mirrorName : ''}</div>
+      <span class="tag ${tv.hasKayo ? 'yes' : 'no'}">KAYO APP: ${tv.hasKayo ? 'YES' : 'NO'}</span>
+      <span class="tag no">SPLITVIEW: BLOCKED</span>
+      ${tv.hasBrowser ? '<span class="tag partial">HAS BROWSER</span>' : ''}
+      ${tv.mirrorName ? '<span class="tag yes">SCREEN MIRROR</span>' : ''}
+    `;
+  }
+
+  function renderRecommendations(recs) {
+    const el = document.getElementById('recommendations');
+    if (!recs.length) return;
+    let html = '<h3 class="rec-heading">RECOMMENDED WORKAROUNDS</h3>';
+    recs.forEach(rec => {
+      html += `
+        <div class="rec-card ${rec.tier}">
+          <h3>${rec.tier === 'best' ? 'BEST: ' : rec.tier === 'good' ? 'GOOD: ' : ''}${rec.title}</h3>
+          <p class="rec-why">${rec.why}</p>
+          <ol class="rec-steps">
+            ${rec.steps.map(s => `<li>${s}</li>`).join('')}
+          </ol>
+        </div>
+      `;
+    });
+    el.innerHTML = html;
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
     const ua = navigator.userAgent;
     document.getElementById('ua-detected').textContent = ua;
 
     const dot = document.getElementById('status-dot');
     const statusText = document.getElementById('status-text');
+    const tv = detectTV(ua);
 
-    if (ua.includes('Web0S') || ua.includes('webOS')) {
-      dot.className = 'status-dot';  // yellow
-      statusText.textContent = 'LG WebOS detected — SplitView is blocked. Try the launcher below, or scroll down for the screen mirror method.';
-    } else if (ua.includes('VIDAA') || ua.includes('Hisense')) {
-      dot.className = 'status-dot red';
-      statusText.textContent = 'Hisense VIDAA detected — no Kayo app or SplitView support. Scroll down for workarounds (HDMI or screen mirror).';
-    } else if (ua.includes('SmartTV') || ua.includes('SMART-TV') || ua.includes('Tizen') || ua.includes('Samsung')) {
-      dot.className = 'status-dot';  // yellow
-      statusText.textContent = 'Smart TV detected — SplitView is blocked on this device. Scroll down for workarounds.';
-    } else if (ua.includes('CrKey') || ua.includes('Chromecast')) {
-      dot.className = 'status-dot red';
-      statusText.textContent = 'Chromecast detected — SplitView is blocked on cast sessions. Use the screen mirror method instead.';
+    if (tv) {
+      dot.className = 'status-dot ' + (tv.dotClass || '');
+      statusText.textContent = tv.statusMsg;
+      renderDetectedTV(tv);
+      renderRecommendations(buildRecommendations(tv));
+
+      // Show LG launcher section only for LG
+      if (tv.id === 'lg') {
+        document.getElementById('lg-launch').classList.add('visible');
+      }
     } else {
       dot.className = 'status-dot green';
       statusText.textContent = 'Desktop browser detected — SplitView should already work at kayosports.com.au';
+      renderDetectedTV(null);
+      renderRecommendations(buildDesktopRecommendations());
     }
   });
 
+  // ── KAYO LAUNCHER (LG) ───────────────────────────────────────
   function launchKayo() {
-    // Try iframe first
     const container = document.getElementById('kayo-frame-container');
     const iframe = document.getElementById('kayo-iframe');
-    
-    // Override UA via Object.defineProperty before loading
+
     try {
       Object.defineProperty(navigator, 'userAgent', {
         get: () => DESKTOP_UA,
@@ -645,13 +1004,12 @@
       console.log('UA override not supported in this browser context');
     }
 
-    // Load Kayo in iframe
     iframe.src = KAYO_URL;
     container.classList.add('active');
+    resetCloseButtonTimer();
 
     // Fallback: if iframe doesn't load in 8s, open new window
     const timeout = setTimeout(() => {
-      // Open in new window as fallback — UA spoof persists in same session
       window.open(KAYO_URL, '_blank');
       container.classList.remove('active');
       iframe.src = '';
@@ -677,7 +1035,6 @@
   }
 
   function openKayoDirect() {
-    // Try to set UA before navigating
     try {
       Object.defineProperty(navigator, 'userAgent', {
         get: () => DESKTOP_UA,
@@ -697,11 +1054,37 @@
     window.open('https://www.whatismybrowser.com/detect/what-is-my-user-agent/', '_blank');
   }
 
-  // Remote-friendly keyboard nav
+  // ── CLOSE BUTTON AUTO-HIDE ───────────────────────────────────
+  // Hides after 4s of inactivity, reappears on mouse/key/touch movement
+  let closeTimer = null;
+  const closeBtn = document.getElementById('close-frame');
+
+  function resetCloseButtonTimer() {
+    closeBtn.classList.remove('hidden');
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      if (document.getElementById('kayo-frame-container').classList.contains('active')) {
+        closeBtn.classList.add('hidden');
+      }
+    }, 4000);
+  }
+
+  document.addEventListener('mousemove', () => {
+    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
+      resetCloseButtonTimer();
+    }
+  });
+
   document.addEventListener('keydown', (e) => {
+    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
+      resetCloseButtonTimer();
+    }
     if (e.key === 'Escape' || e.keyCode === 461) closeFrame(); // 461 = LG back button
-    if (e.key === 'Enter' && document.getElementById('kayo-frame-container').classList.contains('active')) {
-      // Allow remote to interact with iframe
+  });
+
+  document.addEventListener('touchstart', () => {
+    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
+      resetCloseButtonTimer();
     }
   });
 </script>
