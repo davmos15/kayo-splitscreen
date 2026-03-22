@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Unlock SplitView on Kayo Sports for LG TVs by spoofing the desktop user-agent. Watch multiple streams side by side on your Smart TV.">
+<meta name="description" content="Unlock SplitView on Kayo Sports for Smart TVs (LG, Hisense, Samsung). Watch multiple streams side by side on your TV.">
 <meta name="theme-color" content="#e8001c">
 <meta property="og:title" content="Kayo SplitView Launcher">
-<meta property="og:description" content="Unlock SplitView on Kayo Sports for LG TVs by spoofing the desktop user-agent.">
+<meta property="og:description" content="Unlock SplitView on Kayo Sports for Smart TVs — LG, Hisense, Samsung and more.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <title>Kayo SplitView Launcher</title>
@@ -288,31 +288,45 @@
   .steps li span { color: #ccc; }
   .steps li strong { color: white; }
 
-  /* ANDROID SECTION */
-  .android-section {
+  /* TV GUIDE SECTIONS */
+  .tv-guide {
     background: var(--kayo-panel);
     border: 1px solid var(--kayo-border);
-    border-left: 3px solid #00bfa5;
     border-radius: 10px;
     padding: 20px 24px;
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 
-  .android-section h2 {
+  .tv-guide.lg { border-left: 3px solid #a855f7; }
+  .tv-guide.hisense { border-left: 3px solid #f97316; }
+  .tv-guide.hdmi { border-left: 3px solid #3b82f6; }
+  .tv-guide.mirror { border-left: 3px solid #00bfa5; }
+
+  .tv-guide h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 18px;
     letter-spacing: 2px;
-    color: #00bfa5;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
   }
 
-  .android-steps { 
+  .tv-guide.lg h2 { color: #a855f7; }
+  .tv-guide.hisense h2 { color: #f97316; }
+  .tv-guide.hdmi h2 { color: #3b82f6; }
+  .tv-guide.mirror h2 { color: #00bfa5; }
+
+  .tv-guide .guide-subtitle {
+    font-size: 12px;
+    color: var(--kayo-muted);
+    margin-bottom: 14px;
+  }
+
+  .tv-guide-steps {
     list-style: none;
-    counter-reset: android-steps;
+    counter-reset: guide-steps;
   }
 
-  .android-steps li {
-    counter-increment: android-steps;
+  .tv-guide-steps li {
+    counter-increment: guide-steps;
     padding: 8px 0 8px 36px;
     position: relative;
     font-size: 13px;
@@ -321,16 +335,13 @@
     line-height: 1.5;
   }
 
-  .android-steps li:last-child { border-bottom: none; }
+  .tv-guide-steps li:last-child { border-bottom: none; }
 
-  .android-steps li::before {
-    content: counter(android-steps);
+  .tv-guide-steps li::before {
+    content: counter(guide-steps);
     position: absolute;
     left: 0;
     top: 8px;
-    background: rgba(0,191,165,0.15);
-    color: #00bfa5;
-    border: 1px solid rgba(0,191,165,0.3);
     width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -341,7 +352,22 @@
     font-weight: 600;
   }
 
-  .android-steps li strong { color: #fff; }
+  .tv-guide.lg .tv-guide-steps li::before { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); }
+  .tv-guide.hisense .tv-guide-steps li::before { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.3); }
+  .tv-guide.hdmi .tv-guide-steps li::before { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+  .tv-guide.mirror .tv-guide-steps li::before { background: rgba(0,191,165,0.15); color: #00bfa5; border: 1px solid rgba(0,191,165,0.3); }
+
+  .tv-guide-steps li strong { color: #fff; }
+
+  .guides-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--kayo-text);
+    margin-bottom: 20px;
+    margin-top: 12px;
+    text-align: center;
+  }
 
   /* WARNING */
   .warning {
@@ -437,7 +463,7 @@
   <header>
     <div class="logo-badge">KAYO SPLITVIEW UNLOCKER</div>
     <h1>SPLIT<span>VIEW</span><br>LAUNCHER</h1>
-    <p class="subtitle">Forces Kayo to serve the desktop web player on your LG TV — unlocking SplitView</p>
+    <p class="subtitle">Get SplitView working on your Smart TV — LG, Hisense, Samsung & more</p>
   </header>
 
   <!-- STATUS -->
@@ -498,22 +524,65 @@
     </ul>
   </div>
 
-  <!-- ANDROID SECTION -->
-  <div class="android-section">
-    <h2>📱 Android Workaround (Screen Mirror)</h2>
-    <ul class="android-steps">
-      <li>Open <strong>Kayo on your Android phone</strong> (mobile app)</li>
-      <li>Start a stream and tap the <strong>SplitView icon</strong> in the bottom tray to add a second game</li>
-      <li>Once both streams are showing, pull down your notification shade and tap <strong>Screen Cast / Smart View</strong></li>
-      <li>Select your <strong>LG TV</strong> from the list (must be on same Wi-Fi)</li>
-      <li>Your entire phone screen mirrors to the TV — Kayo <strong>never detects a cast session</strong>, so SplitView stays active</li>
-      <li><strong>Tip:</strong> Lock screen rotation and set phone brightness high before mirroring</li>
+  <!-- TV-SPECIFIC GUIDES -->
+  <h3 class="guides-heading">WORKAROUNDS BY TV</h3>
+
+  <!-- LG TV -->
+  <div class="tv-guide lg">
+    <h2>LG TV (WebOS)</h2>
+    <p class="guide-subtitle">Has a built-in browser — try the launcher above first, then fall back to screen mirroring</p>
+    <ul class="tv-guide-steps">
+      <li>Open the <strong>LG TV web browser</strong> and navigate to this page</li>
+      <li>Click <strong>"Launch Kayo with SplitView"</strong> above — this attempts to spoof your browser as a desktop PC</li>
+      <li>If the iframe is blocked (blank/error screen), click <strong>"Open Kayo Directly"</strong> instead</li>
+      <li>If neither works, use the <strong>Android Screen Mirror</strong> method below — it's the most reliable option</li>
+    </ul>
+  </div>
+
+  <!-- HISENSE TV -->
+  <div class="tv-guide hisense">
+    <h2>Hisense TV (VIDAA)</h2>
+    <p class="guide-subtitle">No Kayo app on older VIDAA models, browser too limited for Kayo's web player. Use one of these instead:</p>
+    <ul class="tv-guide-steps">
+      <li><strong>Cheapest option:</strong> Connect a <strong>laptop via HDMI</strong> — open kayosports.com.au in Chrome and use SplitView directly (see HDMI guide below)</li>
+      <li><strong>Best dedicated option:</strong> Plug in an <strong>Apple TV 4K</strong> or <strong>Chromecast with Google TV</strong> via HDMI — Kayo's app on these devices supports SplitView natively</li>
+      <li><strong>No extra hardware:</strong> Use the <strong>Android Screen Mirror</strong> method below — enable SplitView on your phone, then mirror to the TV using <strong>AnyView Cast</strong> (Hisense's built-in Miracast)</li>
+      <li>To use AnyView Cast: press <strong>Input</strong> on your Hisense remote, select <strong>AnyView Cast</strong>, then connect from your Android phone's Screen Cast / Smart View</li>
+    </ul>
+  </div>
+
+  <!-- HDMI METHOD -->
+  <div class="tv-guide hdmi">
+    <h2>Laptop + HDMI Cable</h2>
+    <p class="guide-subtitle">Works with any TV that has an HDMI port — guaranteed SplitView, no tricks needed</p>
+    <ul class="tv-guide-steps">
+      <li>Connect your <strong>laptop to your TV</strong> with an HDMI cable</li>
+      <li>On the TV, switch to the correct <strong>HDMI input</strong> (use the Input/Source button on your remote)</li>
+      <li>On the laptop, open <strong>Chrome or Edge</strong> and go to <strong>kayosports.com.au</strong></li>
+      <li>Log in, start a stream, then click the <strong>SplitView icon</strong> (grid/+ in the player controls)</li>
+      <li>Kayo's web player fully supports SplitView on desktop browsers — up to <strong>4 streams at once</strong></li>
+      <li><strong>Tip:</strong> Press <strong>Win+P</strong> (Windows) or mirror display in System Preferences (Mac) to duplicate your screen to the TV</li>
+    </ul>
+  </div>
+
+  <!-- ANDROID SCREEN MIRROR -->
+  <div class="tv-guide mirror">
+    <h2>Android Screen Mirror (Any TV)</h2>
+    <p class="guide-subtitle">Works on LG, Hisense, Samsung — any TV with Miracast / screen mirroring support</p>
+    <ul class="tv-guide-steps">
+      <li>Open <strong>Kayo on your Android phone</strong> and start watching a stream</li>
+      <li>Tap the <strong>SplitView icon</strong> in the bottom player tray to add a second game</li>
+      <li>Once both streams are showing, pull down your <strong>notification shade</strong></li>
+      <li>Tap <strong>Screen Cast</strong>, <strong>Smart View</strong>, or <strong>Wireless Display</strong> (name varies by phone brand)</li>
+      <li>Select your <strong>TV</strong> from the list (must be on the same Wi-Fi network)</li>
+      <li>Your entire phone screen mirrors to the TV — Kayo <strong>never detects a cast</strong>, so SplitView stays active</li>
+      <li><strong>Tip:</strong> Lock screen rotation to landscape and set brightness to max before mirroring</li>
     </ul>
   </div>
 
   <!-- WARNING -->
   <div class="warning">
-    <strong>⚠️ Note:</strong> The iframe launch method may be blocked by Kayo's Content Security Policy (CSP) — streaming services often refuse to load inside iframes. If the frame shows an error, use the <strong>"Open Kayo Directly"</strong> button instead, which opens Kayo in a new tab with the UA already spoofed via a redirect trick. The Android screen mirror method is the most reliable fallback.
+    <strong>⚠️ Note:</strong> The iframe launch button above is specifically for <strong>LG WebOS TVs</strong> with a built-in browser. It may be blocked by Kayo's Content Security Policy. For <strong>Hisense, Samsung, and other Smart TVs</strong>, use one of the workaround guides above — the HDMI laptop method or Android screen mirror are the most reliable options.
   </div>
 
   <!-- FOOTER -->
@@ -543,15 +612,21 @@
     const dot = document.getElementById('status-dot');
     const statusText = document.getElementById('status-text');
 
-    if (ua.includes('Web0S') || ua.includes('SmartTV') || ua.includes('webOS')) {
+    if (ua.includes('Web0S') || ua.includes('webOS')) {
       dot.className = 'status-dot';  // yellow
-      statusText.textContent = '⚠️ LG WebOS detected — SplitView is blocked. Use the launcher below to spoof desktop identity.';
+      statusText.textContent = 'LG WebOS detected — SplitView is blocked. Try the launcher below, or scroll down for the screen mirror method.';
+    } else if (ua.includes('VIDAA') || ua.includes('Hisense')) {
+      dot.className = 'status-dot red';
+      statusText.textContent = 'Hisense VIDAA detected — no Kayo app or SplitView support. Scroll down for workarounds (HDMI or screen mirror).';
+    } else if (ua.includes('SmartTV') || ua.includes('SMART-TV') || ua.includes('Tizen') || ua.includes('Samsung')) {
+      dot.className = 'status-dot';  // yellow
+      statusText.textContent = 'Smart TV detected — SplitView is blocked on this device. Scroll down for workarounds.';
     } else if (ua.includes('CrKey') || ua.includes('Chromecast')) {
       dot.className = 'status-dot red';
-      statusText.textContent = '🔴 Chromecast detected — SplitView blocked on cast sessions. Use Android screen mirror instead.';
+      statusText.textContent = 'Chromecast detected — SplitView is blocked on cast sessions. Use the screen mirror method instead.';
     } else {
       dot.className = 'status-dot green';
-      statusText.textContent = '✅ Desktop browser detected — SplitView should already work at kayosports.com.au';
+      statusText.textContent = 'Desktop browser detected — SplitView should already work at kayosports.com.au';
     }
   });
 
