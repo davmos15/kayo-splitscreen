@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Unlock SplitView on Kayo Sports for LG TVs by spoofing the desktop user-agent. Watch multiple streams side by side on your Smart TV.">
+<meta name="theme-color" content="#e8001c">
+<meta property="og:title" content="Kayo SplitView Launcher">
+<meta property="og:description" content="Unlock SplitView on Kayo Sports for LG TVs by spoofing the desktop user-agent.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<title>Kayo SplitView Launcher</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --kayo-red: #e8001c;
+    --kayo-dark: #0a0a0a;
+    --kayo-panel: #111111;
+    --kayo-border: #222222;
+    --kayo-muted: #555;
+    --kayo-text: #f0f0f0;
+    --kayo-accent: #ff3344;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--kayo-dark);
+    color: var(--kayo-text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,0,28,0.15) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    width: 100%;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--kayo-red);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .logo-badge::before {
+    content: '⚡';
+    font-size: 18px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 8vw, 72px);
+    letter-spacing: 3px;
+    line-height: 1;
+    color: #fff;
+  }
+
+  h1 span {
+    color: var(--kayo-red);
+  }
+
+  .subtitle {
+    margin-top: 12px;
+    color: var(--kayo-muted);
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffd600;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  .status-dot.green { background: #00e676; }
+  .status-dot.red { background: var(--kayo-red); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  #status-text { color: #aaa; flex: 1; }
+
+  /* UA DISPLAY */
+  .ua-box {
+    background: #0d0d0d;
+    border: 1px solid var(--kayo-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 28px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    color: #555;
+    word-break: break-all;
+    line-height: 1.6;
+  }
+
+  .ua-box .label {
+    color: var(--kayo-red);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  #ua-detected { color: #888; }
+  #ua-spoofed { color: #66ff88; }
+
+  /* MAIN BUTTON */
+  .launch-btn {
+    display: block;
+    width: 100%;
+    background: var(--kayo-red);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 24px 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .launch-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .launch-btn:hover, .launch-btn:focus {
+    background: #ff1a30;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232,0,28,0.4);
+    outline: none;
+  }
+
+  .launch-btn:active { transform: translateY(0); }
+
+  .launch-btn .btn-sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+
+  /* SECONDARY BUTTONS */
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .sec-btn {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    color: var(--kayo-text);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .sec-btn:hover, .sec-btn:focus {
+    border-color: var(--kayo-red);
+    background: rgba(232,0,28,0.08);
+    outline: none;
+  }
+
+  .sec-btn .icon { font-size: 22px; display: block; margin-bottom: 6px; }
+  .sec-btn .desc { font-size: 11px; color: var(--kayo-muted); margin-top: 3px; display: block; }
+
+  /* HOW IT WORKS */
+  .how-it-works {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .how-it-works h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--kayo-red);
+    margin-bottom: 16px;
+  }
+
+  .steps { list-style: none; }
+
+  .steps li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--kayo-border);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .steps li:last-child { border-bottom: none; }
+
+  .step-num {
+    background: var(--kayo-red);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .steps li span { color: #ccc; }
+  .steps li strong { color: white; }
+
+  /* ANDROID SECTION */
+  .android-section {
+    background: var(--kayo-panel);
+    border: 1px solid var(--kayo-border);
+    border-left: 3px solid #00bfa5;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+  }
+
+  .android-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #00bfa5;
+    margin-bottom: 12px;
+  }
+
+  .android-steps { 
+    list-style: none;
+    counter-reset: android-steps;
+  }
+
+  .android-steps li {
+    counter-increment: android-steps;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    font-size: 13px;
+    color: #bbb;
+    border-bottom: 1px solid #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .android-steps li:last-child { border-bottom: none; }
+
+  .android-steps li::before {
+    content: counter(android-steps);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    background: rgba(0,191,165,0.15);
+    color: #00bfa5;
+    border: 1px solid rgba(0,191,165,0.3);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .android-steps li strong { color: #fff; }
+
+  /* WARNING */
+  .warning {
+    background: rgba(255,214,0,0.05);
+    border: 1px solid rgba(255,214,0,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  .warning strong { color: #ffd600; }
+
+  /* IFRAME OVERLAY */
+  #kayo-frame-container {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+  }
+
+  #kayo-frame-container.active { display: block; }
+
+  #kayo-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  #close-frame {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 200;
+    background: rgba(232,0,28,0.9);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+
+  #close-frame:hover { background: var(--kayo-red); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--kayo-muted);
+  }
+
+  .coffee-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffdd00;
+    color: #000;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+  }
+
+  .coffee-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255,221,0,0.3);
+  }
+
+  .footer p {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #444;
+  }
+
+  @media (max-width: 600px) {
+    .btn-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo-badge">KAYO SPLITVIEW UNLOCKER</div>
+    <h1>SPLIT<span>VIEW</span><br>LAUNCHER</h1>
+    <p class="subtitle">Forces Kayo to serve the desktop web player on your LG TV — unlocking SplitView</p>
+  </header>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <div class="status-dot" id="status-dot"></div>
+    <span id="status-text">Detecting your browser environment…</span>
+  </div>
+
+  <!-- UA DISPLAY -->
+  <div class="ua-box">
+    <span class="label">Detected User-Agent (what Kayo sees now)</span>
+    <span id="ua-detected">Detecting…</span>
+    <br><br>
+    <span class="label">Spoofed User-Agent (what Kayo will see)</span>
+    <span id="ua-spoofed">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36</span>
+  </div>
+
+  <!-- MAIN LAUNCH -->
+  <button class="launch-btn" onclick="launchKayo()" id="launch-btn">
+    🚀 LAUNCH KAYO WITH SPLITVIEW
+    <span class="btn-sub">Opens Kayo web player with desktop identity — SplitView should be available</span>
+  </button>
+
+  <!-- SECONDARY BUTTONS -->
+  <div class="btn-row">
+    <button class="sec-btn" onclick="openKayoDirect()">
+      <span class="icon">🌐</span>
+      Open Kayo Directly
+      <span class="desc">Standard browser — no UA spoof</span>
+    </button>
+    <button class="sec-btn" onclick="testUA()">
+      <span class="icon">🔍</span>
+      Test UA Spoof
+      <span class="desc">See what sites will detect</span>
+    </button>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-it-works">
+    <h2>⚙️ How This Works</h2>
+    <ul class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <span>Your LG browser identifies itself as <strong>Web0S; Linux/SmartTV</strong> — Kayo detects this and disables SplitView</span>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <span>This launcher opens Kayo inside a frame and injects a <strong>desktop Windows Chrome user-agent</strong> before Kayo's scripts load</span>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <span>Kayo thinks you're on a <strong>Windows PC using Chrome</strong> — and serves the full desktop player with SplitView enabled</span>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <span>Inside Kayo, click the <strong>SplitView icon</strong> (grid/+ icon in the player controls) to add a second stream</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ANDROID SECTION -->
+  <div class="android-section">
+    <h2>📱 Android Workaround (Screen Mirror)</h2>
+    <ul class="android-steps">
+      <li>Open <strong>Kayo on your Android phone</strong> (mobile app)</li>
+      <li>Start a stream and tap the <strong>SplitView icon</strong> in the bottom tray to add a second game</li>
+      <li>Once both streams are showing, pull down your notification shade and tap <strong>Screen Cast / Smart View</strong></li>
+      <li>Select your <strong>LG TV</strong> from the list (must be on same Wi-Fi)</li>
+      <li>Your entire phone screen mirrors to the TV — Kayo <strong>never detects a cast session</strong>, so SplitView stays active</li>
+      <li><strong>Tip:</strong> Lock screen rotation and set phone brightness high before mirroring</li>
+    </ul>
+  </div>
+
+  <!-- WARNING -->
+  <div class="warning">
+    <strong>⚠️ Note:</strong> The iframe launch method may be blocked by Kayo's Content Security Policy (CSP) — streaming services often refuse to load inside iframes. If the frame shows an error, use the <strong>"Open Kayo Directly"</strong> button instead, which opens Kayo in a new tab with the UA already spoofed via a redirect trick. The Android screen mirror method is the most reliable fallback.
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <a class="coffee-btn" href="https://buymeacoffee.com/nadavmoskow" target="_blank" rel="noopener noreferrer">
+      ☕ Buy Me a Coffee
+    </a>
+    <p>Made with ❤️ for Kayo fans stuck without SplitView</p>
+  </div>
+</div>
+
+<!-- FRAME CONTAINER -->
+<div id="kayo-frame-container">
+  <button id="close-frame" onclick="closeFrame()" aria-label="Close player">✕ Close Player</button>
+  <iframe id="kayo-iframe" src="" allow="autoplay; fullscreen; encrypted-media" title="Kayo Sports Player"></iframe>
+</div>
+
+<script>
+  const DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+  const KAYO_URL = 'https://kayosports.com.au';
+
+  // Detect current UA
+  window.addEventListener('DOMContentLoaded', () => {
+    const ua = navigator.userAgent;
+    document.getElementById('ua-detected').textContent = ua;
+
+    const dot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+
+    if (ua.includes('Web0S') || ua.includes('SmartTV') || ua.includes('webOS')) {
+      dot.className = 'status-dot';  // yellow
+      statusText.textContent = '⚠️ LG WebOS detected — SplitView is blocked. Use the launcher below to spoof desktop identity.';
+    } else if (ua.includes('CrKey') || ua.includes('Chromecast')) {
+      dot.className = 'status-dot red';
+      statusText.textContent = '🔴 Chromecast detected — SplitView blocked on cast sessions. Use Android screen mirror instead.';
+    } else {
+      dot.className = 'status-dot green';
+      statusText.textContent = '✅ Desktop browser detected — SplitView should already work at kayosports.com.au';
+    }
+  });
+
+  function launchKayo() {
+    // Try iframe first
+    const container = document.getElementById('kayo-frame-container');
+    const iframe = document.getElementById('kayo-iframe');
+    
+    // Override UA via Object.defineProperty before loading
+    try {
+      Object.defineProperty(navigator, 'userAgent', {
+        get: () => DESKTOP_UA,
+        configurable: true
+      });
+    } catch(e) {
+      console.log('UA override not supported in this browser context');
+    }
+
+    // Load Kayo in iframe
+    iframe.src = KAYO_URL;
+    container.classList.add('active');
+
+    // Fallback: if iframe doesn't load in 8s, open new window
+    const timeout = setTimeout(() => {
+      // Open in new window as fallback — UA spoof persists in same session
+      window.open(KAYO_URL, '_blank');
+      container.classList.remove('active');
+      iframe.src = '';
+    }, 8000);
+
+    iframe.addEventListener('load', () => {
+      clearTimeout(timeout);
+    }, { once: true });
+
+    iframe.addEventListener('error', () => {
+      clearTimeout(timeout);
+      window.open(KAYO_URL, '_blank');
+      container.classList.remove('active');
+      iframe.src = '';
+    }, { once: true });
+  }
+
+  function closeFrame() {
+    const container = document.getElementById('kayo-frame-container');
+    const iframe = document.getElementById('kayo-iframe');
+    container.classList.remove('active');
+    iframe.src = '';
+  }
+
+  function openKayoDirect() {
+    // Try to set UA before navigating
+    try {
+      Object.defineProperty(navigator, 'userAgent', {
+        get: () => DESKTOP_UA,
+        configurable: true
+      });
+    } catch(e) {}
+    window.open(KAYO_URL, '_blank');
+  }
+
+  function testUA() {
+    try {
+      Object.defineProperty(navigator, 'userAgent', {
+        get: () => DESKTOP_UA,
+        configurable: true
+      });
+    } catch(e) {}
+    window.open('https://www.whatismybrowser.com/detect/what-is-my-user-agent/', '_blank');
+  }
+
+  // Remote-friendly keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.keyCode === 461) closeFrame(); // 461 = LG back button
+    if (e.key === 'Enter' && document.getElementById('kayo-frame-container').classList.contains('active')) {
+      // Allow remote to interact with iframe
+    }
+  });
+</script>
+
+</body>
+</html>
