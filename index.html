@@ -269,9 +269,8 @@
 
   #ua-detected { color: #888; }
 
-  /* MAIN BUTTON (LG only) */
-  .launch-section { display: none; }
-  .launch-section.visible { display: block; }
+  /* MAIN BUTTON */
+  .launch-section { display: block; }
 
   .launch-btn {
     display: block;
@@ -489,169 +488,10 @@
     color: #444;
   }
 
-  /* IFRAME OVERLAY */
-  #kayo-frame-container {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: #000;
-  }
-
-  #kayo-frame-container.active { display: block; }
-
-  #kayo-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  /* Close button: bottom-left, auto-hides after 5s, reappears on mouse/remote movement */
-  #close-frame {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 200;
-    background: rgba(30,30,30,0.85);
-    color: #aaa;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    opacity: 1;
-    transition: opacity 0.4s ease;
-  }
-
-  #close-frame:hover {
-    background: rgba(232,0,28,0.9);
-    color: white;
-    border-color: var(--kayo-red);
-  }
-
-  #close-frame.hidden { opacity: 0; pointer-events: none; }
-
-  /* GET ON YOUR TV SECTION */
-  .get-on-tv {
-    background: var(--kayo-panel);
-    border: 1px solid var(--kayo-border);
-    border-left: 3px solid var(--kayo-red);
-    border-radius: 10px;
-    padding: 24px;
-    margin-bottom: 28px;
-  }
-
-  .get-on-tv h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    color: var(--kayo-red);
-    margin-bottom: 16px;
-  }
-
-  .get-on-tv-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .qr-section {
-    text-align: center;
-  }
-
-  #qr-canvas {
-    border-radius: 8px;
-    background: #fff;
-    padding: 8px;
-    image-rendering: pixelated;
-  }
-
-  .qr-label {
-    font-size: 11px;
-    color: var(--kayo-muted);
-    margin-top: 8px;
-  }
-
-  .url-copy-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .url-display {
-    flex: 1;
-    background: #0d0d0d;
-    border: 1px solid var(--kayo-border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    color: #ddd;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    user-select: all;
-  }
-
-  .copy-btn {
-    background: var(--kayo-red);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-  }
-
-  .copy-btn:hover { background: #ff1a30; }
-  .copy-btn.copied { background: #00c853; }
-
-  .send-methods h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1.5px;
-    color: #aaa;
-    margin-bottom: 10px;
-  }
-
-  .send-method {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid #1a1a1a;
-    font-size: 13px;
-    color: #bbb;
-    line-height: 1.5;
-  }
-
-  .send-method:last-child { border-bottom: none; }
-
-  .send-method .method-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-    width: 28px;
-    text-align: center;
-  }
-
-  .send-method strong { color: #fff; }
-
   @media (max-width: 600px) {
     .btn-row { grid-template-columns: 1fr; }
     .tv-table { font-size: 11px; }
     .tv-table th, .tv-table td { padding: 8px 6px; }
-    .get-on-tv-grid { grid-template-columns: 1fr; }
-    .qr-section { display: flex; gap: 16px; align-items: center; }
   }
 </style>
 </head>
@@ -663,46 +503,6 @@
     <h1>SPLIT<span>VIEW</span><br>LAUNCHER</h1>
     <p class="subtitle">Get SplitView working on your Smart TV — auto-detects your device</p>
   </header>
-
-  <!-- GET ON YOUR TV -->
-  <div class="get-on-tv" id="get-on-tv-section">
-    <h2>GET THIS ON YOUR TV</h2>
-    <div class="get-on-tv-grid">
-      <div class="qr-section">
-        <canvas id="qr-canvas" width="140" height="140"></canvas>
-        <div class="qr-label">Scan with your phone</div>
-      </div>
-      <div>
-        <div class="url-copy-row">
-          <div class="url-display" id="page-url">davmos15.github.io/kayo-splitscreen</div>
-          <button class="copy-btn" id="copy-btn" onclick="copyURL()">Copy</button>
-        </div>
-        <div class="send-methods">
-          <h3>WAYS TO OPEN ON YOUR TV</h3>
-          <div class="send-method">
-            <span class="method-icon">📱</span>
-            <span><strong>Easiest:</strong> Scan the QR code with your phone camera, then use the <strong>screen mirror</strong> method — no need to type anything on the TV</span>
-          </div>
-          <div class="send-method">
-            <span class="method-icon">📲</span>
-            <span><strong>LG ThinQ app:</strong> Open the app on your phone → Remote → tap the browser icon → paste the URL into the TV browser</span>
-          </div>
-          <div class="send-method">
-            <span class="method-icon">📲</span>
-            <span><strong>Samsung SmartThings:</strong> Open the app → select your TV → use the URL Share or browser feature to send the link</span>
-          </div>
-          <div class="send-method">
-            <span class="method-icon">⌨️</span>
-            <span><strong>TV browser:</strong> Open your TV's web browser and type the short URL above — use a USB keyboard to make it faster</span>
-          </div>
-          <div class="send-method">
-            <span class="method-icon">🔖</span>
-            <span><strong>Bookmark it:</strong> Once loaded on your TV browser, bookmark the page so you never have to type it again</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- STATUS -->
   <div class="status-bar">
@@ -716,24 +516,12 @@
   <!-- RECOMMENDATIONS (populated by JS) -->
   <div id="recommendations"></div>
 
-  <!-- LG LAUNCH SECTION (shown only for LG) -->
-  <div class="launch-section" id="lg-launch">
-    <button class="launch-btn" onclick="launchKayo()" id="launch-btn">
-      LAUNCH KAYO WITH SPLITVIEW
-      <span class="btn-sub">Opens Kayo web player with desktop identity — SplitView should be available</span>
+  <!-- LAUNCH KAYO -->
+  <div class="launch-section">
+    <button class="launch-btn" onclick="openKayoDirect()" id="launch-btn">
+      OPEN KAYO
+      <span class="btn-sub">Opens kayosports.com.au in a new tab</span>
     </button>
-    <div class="btn-row">
-      <button class="sec-btn" onclick="openKayoDirect()">
-        <span class="icon">🌐</span>
-        Open Kayo Directly
-        <span class="desc">Standard browser — no UA spoof</span>
-      </button>
-      <button class="sec-btn" onclick="testUA()">
-        <span class="icon">🔍</span>
-        Test UA Spoof
-        <span class="desc">Verify what Kayo sees</span>
-      </button>
-    </div>
   </div>
 
   <!-- UA DISPLAY -->
@@ -813,74 +601,8 @@
   </div>
 </div>
 
-<!-- FRAME CONTAINER -->
-<div id="kayo-frame-container">
-  <button id="close-frame" onclick="closeFrame()" aria-label="Close player">✕ Close</button>
-  <iframe id="kayo-iframe" src="" allow="autoplay; fullscreen; encrypted-media" title="Kayo Sports Player"></iframe>
-</div>
-
 <script>
-  const DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
   const KAYO_URL = 'https://kayosports.com.au';
-  const PAGE_URL = 'https://davmos15.github.io/kayo-splitscreen/';
-
-  // ── COPY URL ──────────────────────────────────────────────────
-  function copyURL() {
-    const btn = document.getElementById('copy-btn');
-    navigator.clipboard.writeText(PAGE_URL).then(() => {
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    }).catch(() => {
-      // Fallback for TV browsers without clipboard API
-      const ta = document.createElement('textarea');
-      ta.value = PAGE_URL;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    });
-  }
-
-  // ── QR CODE GENERATOR (minimal, zero-dependency) ─────────────
-  // Encodes alphanumeric data as a QR code and draws to canvas
-  function generateQR(canvas, url) {
-    // Use a pre-rendered approach: draw the QR as a grid of modules
-    // This is a simplified encoder for short URLs using the QR Code spec
-    const size = 140;
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, size, size);
-
-    // For reliability, we'll use an image-based approach with the Google Charts API
-    // which works offline once loaded, or falls back to a text display
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function() {
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, size, size);
-      ctx.drawImage(img, 0, 0, size, size);
-    };
-    img.onerror = function() {
-      // Fallback: draw a simple "scan me" placeholder
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, size, size);
-      ctx.fillStyle = '#000000';
-      ctx.font = 'bold 12px DM Sans, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('QR unavailable', size/2, size/2 - 8);
-      ctx.font = '11px DM Sans, sans-serif';
-      ctx.fillText('Copy URL instead', size/2, size/2 + 12);
-    };
-    // Use QR Server API (free, no key needed, widely available)
-    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=' + encodeURIComponent(url);
-  }
-
   // ── TV DETECTION ──────────────────────────────────────────────
   const TV_PROFILES = [
     {
@@ -1180,9 +902,6 @@
     const ua = navigator.userAgent;
     document.getElementById('ua-detected').textContent = ua;
 
-    // Generate QR code
-    generateQR(document.getElementById('qr-canvas'), PAGE_URL);
-
     const dot = document.getElementById('status-dot');
     const statusText = document.getElementById('status-text');
     const tv = detectTV(ua);
@@ -1192,11 +911,6 @@
       statusText.textContent = tv.statusMsg;
       renderDetectedTV(tv);
       renderRecommendations(buildRecommendations(tv));
-
-      // Show LG launcher section only for LG
-      if (tv.id === 'lg') {
-        document.getElementById('lg-launch').classList.add('visible');
-      }
     } else {
       dot.className = 'status-dot green';
       statusText.textContent = 'Desktop browser detected — SplitView should already work at kayosports.com.au';
@@ -1205,103 +919,10 @@
     }
   });
 
-  // ── KAYO LAUNCHER (LG) ───────────────────────────────────────
-  function launchKayo() {
-    const container = document.getElementById('kayo-frame-container');
-    const iframe = document.getElementById('kayo-iframe');
-
-    try {
-      Object.defineProperty(navigator, 'userAgent', {
-        get: () => DESKTOP_UA,
-        configurable: true
-      });
-    } catch(e) {
-      console.log('UA override not supported in this browser context');
-    }
-
-    iframe.src = KAYO_URL;
-    container.classList.add('active');
-    resetCloseButtonTimer();
-
-    // Fallback: if iframe doesn't load in 8s, open new window
-    const timeout = setTimeout(() => {
-      window.open(KAYO_URL, '_blank');
-      container.classList.remove('active');
-      iframe.src = '';
-    }, 8000);
-
-    iframe.addEventListener('load', () => {
-      clearTimeout(timeout);
-    }, { once: true });
-
-    iframe.addEventListener('error', () => {
-      clearTimeout(timeout);
-      window.open(KAYO_URL, '_blank');
-      container.classList.remove('active');
-      iframe.src = '';
-    }, { once: true });
-  }
-
-  function closeFrame() {
-    const container = document.getElementById('kayo-frame-container');
-    const iframe = document.getElementById('kayo-iframe');
-    container.classList.remove('active');
-    iframe.src = '';
-  }
-
+  // ── OPEN KAYO ──────────────────────────────────────────────────
   function openKayoDirect() {
-    try {
-      Object.defineProperty(navigator, 'userAgent', {
-        get: () => DESKTOP_UA,
-        configurable: true
-      });
-    } catch(e) {}
     window.open(KAYO_URL, '_blank');
   }
-
-  function testUA() {
-    try {
-      Object.defineProperty(navigator, 'userAgent', {
-        get: () => DESKTOP_UA,
-        configurable: true
-      });
-    } catch(e) {}
-    window.open('https://www.whatismybrowser.com/detect/what-is-my-user-agent/', '_blank');
-  }
-
-  // ── CLOSE BUTTON AUTO-HIDE ───────────────────────────────────
-  // Hides after 4s of inactivity, reappears on mouse/key/touch movement
-  let closeTimer = null;
-  const closeBtn = document.getElementById('close-frame');
-
-  function resetCloseButtonTimer() {
-    closeBtn.classList.remove('hidden');
-    clearTimeout(closeTimer);
-    closeTimer = setTimeout(() => {
-      if (document.getElementById('kayo-frame-container').classList.contains('active')) {
-        closeBtn.classList.add('hidden');
-      }
-    }, 4000);
-  }
-
-  document.addEventListener('mousemove', () => {
-    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
-      resetCloseButtonTimer();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
-      resetCloseButtonTimer();
-    }
-    if (e.key === 'Escape' || e.keyCode === 461) closeFrame(); // 461 = LG back button
-  });
-
-  document.addEventListener('touchstart', () => {
-    if (document.getElementById('kayo-frame-container').classList.contains('active')) {
-      resetCloseButtonTimer();
-    }
-  });
 </script>
 
 </body>
